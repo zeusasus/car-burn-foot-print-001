@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { playClick } from "../utils/audio";
 import { 
   CarIcon, 
@@ -40,14 +40,24 @@ const generalTips = [
 
 function Breakdown({ data, setScreen }) {
   const [animated, setAnimated] = useState(false);
-  const [randomTips] = useState(() => {
+  const randomTips = useMemo(() => {
     const tips = [];
-    if (data.transport > 2) tips.push(transportTips[Math.floor(Math.random() * transportTips.length)]);
-    if (data.food > 1) tips.push(foodTips[Math.floor(Math.random() * foodTips.length)]);
-    if (data.energy > 1) tips.push(energyTips[Math.floor(Math.random() * energyTips.length)]);
-    tips.push(generalTips[Math.floor(Math.random() * generalTips.length)]);
+    if (data.transport > 2) {
+      const idx = Math.floor(data.transport) % transportTips.length;
+      tips.push(transportTips[idx]);
+    }
+    if (data.food > 1) {
+      const idx = Math.floor(data.food * 10) % foodTips.length;
+      tips.push(foodTips[idx]);
+    }
+    if (data.energy > 1) {
+      const idx = Math.floor(data.energy * 10) % energyTips.length;
+      tips.push(energyTips[idx]);
+    }
+    const genIdx = Math.floor((data.transport + data.food + data.energy) * 10) % generalTips.length;
+    tips.push(generalTips[genIdx]);
     return tips;
-  });
+  }, [data]);
 
   useEffect(() => {
     const timer = setTimeout(() => setAnimated(true), 150);

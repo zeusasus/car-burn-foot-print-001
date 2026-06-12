@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { playClick, playSuccess } from "../utils/audio";
 import { DrillIcon, GlassesIcon, SpiralIcon, SunIcon, CloudIcon } from "./icons";
 
@@ -116,7 +116,7 @@ function Dashboard({ userData, setScreen }) {
     fetchLiveDiagnostics();
   }, [city]);
 
-  const kpis = useMemo(() => {
+  const getKpis = () => {
     const history = JSON.parse(localStorage.getItem("history") || "[]");
     const pledges = JSON.parse(localStorage.getItem("pledges") || "[]");
     const today = new Date().toISOString().split("T")[0];
@@ -198,7 +198,9 @@ function Dashboard({ userData, setScreen }) {
       todayOffset: todayOffset,
       todayGross: todayGross
     };
-  }, [avgCO2]);
+  };
+
+  const kpis = getKpis();
 
   const getAqiClass = (aqiScore) => {
     if (aqiScore <= 50) return "aqi-good";
