@@ -492,10 +492,24 @@ function History({ userData }) {
               <table className="google-table">
                 <thead>
                   <tr>
-                    <th onClick={() => handleSort("date")} className="sortable-th">
+                    <th 
+                      onClick={() => handleSort("date")} 
+                      className="sortable-th"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleSort("date"); }}
+                      aria-label="Sort by Date"
+                    >
                        Date {sortKey === "date" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
                     </th>
-                    <th onClick={() => handleSort("total")} className="sortable-th">
+                    <th 
+                      onClick={() => handleSort("total")} 
+                      className="sortable-th"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleSort("total"); }}
+                      aria-label="Sort by Footprint"
+                    >
                        Footprint {sortKey === "total" ? (sortOrder === "asc" ? "▲" : "▼") : ""}
                     </th>
                     <th>Travel</th>

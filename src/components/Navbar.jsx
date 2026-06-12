@@ -30,7 +30,14 @@ function Navbar({ screen, setScreen, onResetProfile }) {
 
   return (
     <aside className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      <div className="sidebar-brand" onClick={() => handleNavClick("dashboard")}>
+      <div 
+        className="sidebar-brand" 
+        onClick={() => handleNavClick("dashboard")}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleNavClick("dashboard"); }}
+        aria-label="karburn Home Dashboard"
+      >
         <SpiralIcon size={28} className="icon-spiral" />
         {!collapsed && <span className="brand-text" style={{ color: "var(--primary-green)" }}>karburn</span>}
       </div>

@@ -15,7 +15,14 @@ function SplashScreen({ userData, onContinue }) {
   };
 
   return (
-    <div className="splash-screen" onClick={handleTap}>
+    <div 
+      className="splash-screen" 
+      onClick={handleTap}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") handleTap(); }}
+      aria-label="Welcome screen. Press enter or space, or tap anywhere to begin."
+    >
       <div className={`splash-content ${visible ? "fade-in" : ""}`}>
         <div className="splash-icon" style={{ display: "flex", justifyContent: "center", marginBottom: "1.5rem" }}>
           <SpiralIcon size={64} className="animate-spin" style={{ color: "#10B981", animationDuration: "8s" }} />
