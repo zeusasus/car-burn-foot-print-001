@@ -13,9 +13,11 @@ dist-ssr
 *.local
 
 # Builds and local state
+android
 dist-builds
 tmp-build-dir
 user_state.json
+
 
 # Editor directories and files
 .vscode/*
