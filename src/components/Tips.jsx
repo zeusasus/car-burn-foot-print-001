@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { playClick, playSuccess } from "../utils/audio";
 import { 
   SpiralIcon, 
@@ -90,13 +90,26 @@ const baselineTips = [
 ];
 
 function Tips() {
-  const [pledges, setPledges] = useState([]);
+  const [pledges, setPledges] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem("pledges") || "[]");
+    return baselineTips.map((t) => {
+      const match = saved.find(s => s.id === t.id);
+      return {
+        ...t,
+        active: match ? match.active : false,
+        value: match && match.value !== undefined ? match.value : t.defaultValue
+      };
+    });
+  });
   const [activeCategory, setActiveCategory] = useState("all");
   const [showTutorial, setShowTutorial] = useState(
     !localStorage.getItem("tutorial_tips_completed")
   );
   const [tutorialStep, setTutorialStep] = useState(1);
-  const [totalOffsetEarned, setTotalOffsetEarned] = useState(0);
+  const totalOffsetEarned = useMemo(() => {
+    const history = JSON.parse(localStorage.getItem("history") || "[]");
+    return history.reduce((sum, h) => sum + (h.appliedOffset || 0), 0);
+  }, []);
 
   const nextTutorial = () => {
     playClick();
@@ -108,27 +121,7 @@ function Tips() {
     }
   };
 
-  useEffect(() => {
-    // Load pledges from localStorage
-    const saved = JSON.parse(localStorage.getItem("pledges") || "[]");
-    
-    // Merge saved state (active status, value) with baselineTips configuration
-    const merged = baselineTips.map((t) => {
-      const match = saved.find(s => s.id === t.id);
-      return {
-        ...t,
-        active: match ? match.active : false,
-        value: match && match.value !== undefined ? match.value : t.defaultValue
-      };
-    });
-    setPledges(merged);
-    localStorage.setItem("pledges", JSON.stringify(merged.map(p => ({ id: p.id, active: p.active, value: p.value }))));
 
-    // Calculate actual historical offsets
-    const history = JSON.parse(localStorage.getItem("history") || "[]");
-    const totalOffset = history.reduce((sum, h) => sum + (h.appliedOffset || 0), 0);
-    setTotalOffsetEarned(totalOffset);
-  }, []);
 
   const handlePledgeToggle = (id) => {
     const updated = pledges.map((p) => {

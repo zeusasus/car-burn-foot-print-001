@@ -40,17 +40,19 @@ const generalTips = [
 
 function Breakdown({ data, setScreen }) {
   const [animated, setAnimated] = useState(false);
-  const [randomTips, setRandomTips] = useState([]);
-
-  useEffect(() => {
-    setTimeout(() => setAnimated(true), 150);
+  const [randomTips] = useState(() => {
     const tips = [];
     if (data.transport > 2) tips.push(transportTips[Math.floor(Math.random() * transportTips.length)]);
     if (data.food > 1) tips.push(foodTips[Math.floor(Math.random() * foodTips.length)]);
     if (data.energy > 1) tips.push(energyTips[Math.floor(Math.random() * energyTips.length)]);
     tips.push(generalTips[Math.floor(Math.random() * generalTips.length)]);
-    setRandomTips(tips);
-  }, [data]);
+    return tips;
+  });
+
+  useEffect(() => {
+    const timer = setTimeout(() => setAnimated(true), 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   const netTotal = data.netEmissions !== undefined ? data.netEmissions : 0;
   const grossTotal = data.grossEmissions !== undefined ? data.grossEmissions : 0;

@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useState } from "react";
 
 // Realistic Star-Cluster Galaxy Component
 function GalaxyCluster({ x, y, size, coreColor, rotationDuration = "60s", armCount = 2, starCount = 45 }) {
-  const galaxyStars = useMemo(() => {
+  const [galaxyStars] = useState(() => {
     const arr = [];
     for (let i = 0; i < starCount; i++) {
       // Distribute stars along spiral arms
@@ -24,7 +24,7 @@ function GalaxyCluster({ x, y, size, coreColor, rotationDuration = "60s", armCou
       });
     }
     return arr;
-  }, [starCount, armCount]);
+  });
 
   return (
     <div 
@@ -95,7 +95,7 @@ function SpaceBackground() {
   const starsCount = 140;
   const starColors = ["#ffffff", "#93C5FD", "#FEF08A", "#FCA5A5", "#C084FC"];
   
-  const stars = useMemo(() => {
+  const [stars] = useState(() => {
     const arr = [];
     for (let i = 0; i < starsCount; i++) {
       arr.push({
@@ -110,10 +110,10 @@ function SpaceBackground() {
       });
     }
     return arr;
-  }, []);
+  });
 
   const particlesCount = 20;
-  const particles = useMemo(() => {
+  const [particles] = useState(() => {
     const arr = [];
     for (let i = 0; i < particlesCount; i++) {
       arr.push({
@@ -127,7 +127,7 @@ function SpaceBackground() {
       });
     }
     return arr;
-  }, []);
+  });
 
   return (
     <div 

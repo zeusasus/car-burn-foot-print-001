@@ -1,4 +1,4 @@
-import React from "react";
+
 
 // Spinning Golden Core Drill SVG
 export const DrillIcon = ({ className = "", size = 24 }) => (

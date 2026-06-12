@@ -1,6 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { playClick, playSuccess } from "../utils/audio";
-import { DrillIcon, GlassesIcon, SpiralIcon, SunIcon, CloudIcon, WindIcon } from "./icons";
+import { DrillIcon, GlassesIcon, SpiralIcon, SunIcon, CloudIcon } from "./icons";
+
+// Custom Inline Star SVG matching Gurren Lagann theme
+const StarIcon = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <path 
+      d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" 
+      fill="#FBBF24" 
+      stroke="#D97706" 
+      strokeWidth="1.5" 
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 function Dashboard({ userData, setScreen }) {
   const [weather, setWeather] = useState(null);
@@ -23,17 +36,7 @@ function Dashboard({ userData, setScreen }) {
   const [tutorialStep, setTutorialStep] = useState(1);
   const [showResetWarning, setShowResetWarning] = useState(false);
 
-  const [kpis, setKpis] = useState({
-    todayTotal: 0,
-    todayTrend: "No logs today",
-    weeklyAvg: 0,
-    weeklyTrend: "No logs yet",
-    activePledges: 0,
-    bestDay: 0,
-    level: "Level 1: Carbon Novice 🌱",
-    todayOffset: 0,
-    todayGross: 0
-  });
+
 
   const city = userData?.city || "Bengaluru";
   const country = userData?.country || "India";
@@ -111,8 +114,9 @@ function Dashboard({ userData, setScreen }) {
     };
 
     fetchLiveDiagnostics();
+  }, [city]);
 
-    // Fetch and calculate KPI statistics
+  const kpis = useMemo(() => {
     const history = JSON.parse(localStorage.getItem("history") || "[]");
     const pledges = JSON.parse(localStorage.getItem("pledges") || "[]");
     const today = new Date().toISOString().split("T")[0];
@@ -183,7 +187,7 @@ function Dashboard({ userData, setScreen }) {
     const todayOffset = todayEntry && todayEntry.appliedOffset !== undefined ? todayEntry.appliedOffset : 0;
     const todayGross = todayEntry && todayEntry.grossEmissions !== undefined ? todayEntry.grossEmissions : todayVal;
 
-    setKpis({
+    return {
       todayTotal: todayVal.toFixed(2),
       todayTrend: todayTrendStr,
       weeklyAvg: weeklyAvgVal.toFixed(2),
@@ -193,8 +197,8 @@ function Dashboard({ userData, setScreen }) {
       level: currentLevel,
       todayOffset: todayOffset,
       todayGross: todayGross
-    });
-  }, [userData, city, avgCO2]);
+    };
+  }, [avgCO2]);
 
   const getAqiClass = (aqiScore) => {
     if (aqiScore <= 50) return "aqi-good";
@@ -214,10 +218,7 @@ function Dashboard({ userData, setScreen }) {
     setScreen("input");
   };
 
-  const handleResetProfile = () => {
-    playClick();
-    setShowResetWarning(true);
-  };
+
 
   const confirmResetProfile = () => {
     playSuccess();
@@ -258,18 +259,7 @@ function Dashboard({ userData, setScreen }) {
   const remainingBudget = avgCO2 - todayNum;
   const isOverBudget = todayNum > avgCO2;
 
-  // Custom Inline Star SVG matching Gurren Lagann theme
-  const StarIcon = ({ size = 24, className = "" }) => (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
-      <path 
-        d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.62L12 2L9.19 8.62L2 9.24L7.45 13.97L5.82 21L12 17.27Z" 
-        fill="#FBBF24" 
-        stroke="#D97706" 
-        strokeWidth="1.5" 
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
+
 
   return (
     <div className="dashboard-container">
@@ -595,6 +585,7 @@ function Dashboard({ userData, setScreen }) {
                 <button
                   key={preset.value}
                   onClick={() => handleGlowColorChange(preset.value)}
+                  aria-label={`Select ${preset.name} glow color`}
                   style={{
                     width: "24px",
                     height: "24px",
@@ -678,6 +669,7 @@ function Dashboard({ userData, setScreen }) {
         className="floating-action-button" 
         onClick={handleQuickLog}
         title="Add New Activity Log"
+        aria-label="Add New Activity Log"
         style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">

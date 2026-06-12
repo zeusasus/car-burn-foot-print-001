@@ -87,7 +87,7 @@ function applyThemeAndGlow() {
 }
 
 localStorage.setItem = function (key, value) {
-  originalSetItem.apply(this, arguments);
+  originalSetItem.call(this, key, value);
   syncStateToFile();
   if (["activeTheme", "glowIntensity", "glowColor"].includes(key)) {
     applyThemeAndGlow();
@@ -95,12 +95,12 @@ localStorage.setItem = function (key, value) {
 };
 
 localStorage.removeItem = function (key) {
-  originalRemoveItem.apply(this, arguments);
+  originalRemoveItem.call(this, key);
   syncStateToFile();
 };
 
 localStorage.clear = function () {
-  originalClear.apply(this, arguments);
+  originalClear.call(this);
   syncStateToFile();
 };
 

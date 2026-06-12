@@ -80,6 +80,7 @@ function Navbar({ screen, setScreen, onResetProfile }) {
             className={`menu-item menu-${link.id} ${screen === link.id ? "active" : ""}`}
             onClick={() => handleNavClick(link.id)}
             title={link.label}
+            aria-label={link.label}
           >
             <span className="menu-icon">{link.icon}</span>
             {!collapsed && <span className="menu-label">{link.label}</span>}

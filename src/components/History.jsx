@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { playClick } from "../utils/audio";
 import { DrillIcon, GlassesIcon, SpiralIcon } from "./icons";
 
 function History({ userData }) {
-  const [history, setHistory] = useState([]);
+  const [history] = useState(() => JSON.parse(localStorage.getItem("history") || "[]"));
   const [sortKey, setSortKey] = useState("date");
   const [sortOrder, setSortOrder] = useState("desc");
   const [filterCategory, setFilterCategory] = useState("all");
@@ -29,10 +29,7 @@ function History({ userData }) {
   const avgCO2 = userData?.avgCO2 || 5.2;
   const userName = userData?.name || "User";
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("history") || "[]");
-    setHistory(saved);
-  }, []);
+
 
   const getDayTotal = (entry) => {
     if (entry.netEmissions !== undefined) return entry.netEmissions;
