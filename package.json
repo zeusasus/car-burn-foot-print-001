@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build && node obfuscate.cjs",
     "lint": "eslint .",
+    "test": "node test.cjs",
     "preview": "vite preview"
   },
   "dependencies": {
