@@ -1,62 +1,170 @@
 # karburn 🌀
-> **A private, offline-first personal carbon target diary & simulator.**
+> **'Your daily carbon ledger'**
 
-**karburn** is a premium, space-themed personal carbon tracker and habit simulator designed to solve the friction of environmental tracking. By converting daily behaviors into a tactile, color-coded **Daily Green Target (Eco-Budget)**, it translates abstract planetary metrics into an interactive dashboard.
+## 📢 Disclaimer
+This is actually my first time coding an app with 0 coding experience but thanks to google alphacode and claude (alphacode did majority ofn the work, claude helped me in the scaffolding part) I awas able to bring this app to life.
 
 ---
 
-## 💡 Problems Solved
+## 💡 The Core Theme & Problem
+'Your daily carbon ledger' is the theme, this is something which tackles the problem of our invisible emissions into a visible, actionable score.
 
-1. **The "Invisible Footprint"**: Maps abstract environmental metrics (driving, cooling, dining) into real-time daily weights in kilograms (kg CO₂).
-2. **Eco-Budget Framework**: Breaks down global carbon limits into a daily calorie-style budget (e.g. **5.21 kg CO₂ / day** in India) to keep users out of ecological deficit.
-3. **Frictionless Logging**: Simplifies logging through category presets (Travel, Diet, Electricity, Water, Apparel, Deliveries) and quick-sliders under 30 seconds.
-4. **Actionable Eco Pledges**: Suggests actionable, custom habit targets (e.g. raises AC to 24°C, plant a tree) and automatically deducts verified daily offsets from scores.
-5. **Digital Carbon Impact**: Incorporates calculations for cloud computations, including text LLM prompts, image generations, and media streaming.
-6. **100% Client-Side Privacy**: Runs completely offline. No tracking, no GPS hardware access, and no server databases.
+**karburn** is a privacy-first, offline carbon footprint tracker that breaks down your environmental impact into a simple daily budget. Instead of overwhelming yourself with too many statistics, **karburn** gives you a real-time, gamified view of your daily ecological footprint — and helps you bring it back into balance if you're honest about it. 
+
+### What problem does this app solve?
+Most carbon tracking tools fail for the same or different reasons: 
+*   **Too abstract**: "12 tons of CO₂ per year" means nothing to most people day-to-day.
+*   **Too tedious**: Manual entry of fuel volumes, utility bills, and food weights causes drop-off.
+*   **No actionable guidance**: Users learn they have a problem, but not what to do about it.
+*   **Privacy-invasive**: Most apps require cloud accounts and continuous GPS tracking.
+*   **Blind to digital habits**: Streaming and AI usage carry real energy/water costs that go unnoticed.
+
+*Note: I also added many options like deliveries since people are increasingly into online food delivery/instant delivery schemes so i'd like them to be aware of what impact it causes to the nature (i've added india specific for now) but there is an option for *others* too.*
+
+---
+
+## 🎯 The Approach
+
+| Traditional Carbon Trackers | karburn's Approach |
+| :--- | :--- |
+| **Invisible footprint** | Converts daily habits into a concrete kg CO₂ score |
+| **Yearly-only metrics** | Daily Eco-Budget with a live progress bar (green = on track, red = deficit) |
+| **Logging friction** | Smart presets + sliders — log your day in under 30 seconds |
+| **Climate anxiety** | Eco Pledges: suggest habits and auto-apply their CO₂ savings |
+| **Digital blind spot** | AI Footprint Calculator: reveals hidden energy/water costs (this is not real time and has fixed values so this part is just for the awareness part of the user) |
+| **Privacy concerns** | 100% offline — no accounts, no cloud sync, no GPS but in the beginning it uses open meteo for showing weather and aqi |
+
+---
+
+## ✨ Features
+
+### 📅 Daily Eco-Budget
+Your yearly carbon footprint is broken down into a personalized daily target (e.g., 5.21 kg CO₂). A live progress bar shows whether you're within budget (green) or in an ecological deficit (red).
+
+### ⚡ Fast Logging
+Log activities in seconds using smart presets:
+*   **Commute**: Car, bike, public transport, walking.
+*   **Meals**: Light Meat Meal, vegetarian, vegan, etc.
+*   **Appliances**: Ceiling Fan, AC usage, etc.
+*   **Digital activity**: Netflix HD, AI queries, etc.
+*   *Each preset uses a simple slider (0–999) to adjust intensity/duration.*
+
+### 🤝 Eco Pledges (Missions)
+**karburn** suggests habit changes — like raising your AC to 24°C or going vegetarian for a day — and shows the **annual CO₂ offset potential**. Completing a pledge instantly subtracts the savings from your daily score, closing the loop between what the user reads and if the user actually performs what they pledge to.
+
+### 🤖 AI Footprint Calculator
+This is so that it Brings awareness to the often-overlooked environmental cost of digital life including the electricity and water consumed by streaming and AI model usage in remote data center so the user knows what he's contributing to. *I know this is ironic considering i coded this app using AI but i hope that it brings change to people.*
+
+### 🌤️ Live Weather & AQI
+Real-time temperature and Air Quality Index, fetched via [Open-Meteo](https://open-meteo.com/):
+1. **Geocoding**: Converts your city name into latitude/longitude.
+2. **Weather**: Fetches current temperature and weather code.
+3. **Air Quality**: Fetches the US AQI (0–500 scale).
+
+**AQI is color-coded for quick reading:**
+*   🟢 **0–50**: Good
+*   🟡 **51–100**: Moderate
+*   🔴 **101+**: Poor
+*Note: AQI values use the US EPA standard (0–500 scale). This may differ slightly from country-specific AQI scales (e.g., India's CPCB AQI), though the underlying pollutant data is globally sourced.*
+
+**🔒 No API key, no GPS hardware access — only the city name entered during onboarding is used.**
+
+### 🛡️ Privacy by Design
+*   No cloud registration.
+*   No continuous location tracking.
+*   All logs, presets, and achievements stay on-device.
 
 ---
 
 ## 🛠️ Technology Stack
-* **Frontend UI**: React 19, CSS3 (Custom theme glows, space canvas backgrounds, glassmorphism card modules), Vite 8 (build packager).
-* **Desktop Wrapper**: Electron 42 (mirrors local memory state to a physical `user_state.json` file).
-* **Mobile Wrapper**: Capacitor 8 (transpiles frontend code into a native Android project wrapper).
-* **Security & Obfuscation**: JavaScript Obfuscator 5, SHA-256 equivalent local integrity checksum hashing.
+*   **Frontend**: React
+*   **Build Tooling**: Node.js, npm
+*   **Android Packaging**: Android Studio (Capacitor-based)
+*   **APIs**: Open-Meteo (Geocoding, Forecast, Air Quality)
+*   **Version Control**: Git
+*   **Development**: Built with [Google Antigravity](https://antigravity.google/) (AI-assisted / vibecoded development) along with some guidance for scaffolding of the app using Claude chat so, credits to them lol.
 
 ---
 
-## 🚀 Compilation & Build Guide
-
-### 1. Compile and Obfuscate Web Assets
-To build the distribution web app (outputs to `dist/`):
-```bash
-npm run build
+## 📂 Project Structure (Key Files)
 ```
-
-### 2. Synchronize Assets to Android Wrapper
-To write compiled web assets into Capacitor's Android folder assets:
-```bash
-npx cap sync
-```
-*Once synced, open `android/` inside Android Studio to compile your final `.apk` wrapper.*
-
-### 3. Package Standalone Desktop Executable
-To package the app into a standalone portable Windows folder (`dist-builds/karburn-win32-x64/` containing `karburn.exe`):
-```bash
-node manual_package.cjs
+car-burn-foot-print-001/
+├── src/
+│   ├── components/
+│   │   └── Dashboard.jsx     Core dashboard, weather/AQI fetch logic
+│   └── ...
+├── android/                   Android Studio project (Capacitor)
+├── package.json
+└── README.md
 ```
 
 ---
 
-## 🔒 Security & Data Integrity
-To protect history honesty, karburn seals every log entry with a cryptographic checksum calculated locally from the date, timestamp, and emission parameters. 
+## 🚀 Getting Started
 
-```javascript
-const dataStr = `${today}|${timestamp}|${grossEmissions}|${netEmissions}|${appliedOffset}`;
-let hash = 0;
-for (let i = 0; i < dataStr.length; i++) {
-  hash = (hash << 5) - hash + dataStr.charCodeAt(i);
-  hash |= 0;
-}
-const checksum = Math.abs(hash).toString(16);
-```
-If any log parameters are manually modified inside the local JSON configuration file, the app detects the checksum mismatch on boot and alerts the user of database corruption.
+### Prerequisites
+*   [Node.js](https://nodejs.org/) (LTS recommended)
+*   [Git](https://git-scm.com/)
+*   [Android Studio](https://developer.android.com/studio) (for Android builds)
+
+**karburn** is distributed as ready-to-use setup so no build setup required.
+
+### 💻 Desktop (Offline)
+1. Download and unzip the provided `.zip` file.
+2. Open the extracted folder and launch the app.
+3. Use **karburn** fully offline on your desktop.
+
+### 📱 Android
+1. Download the provided `.apk` file.
+2. Install it on your Android device (you may need to allow installs from unknown sources).
+3. Open **karburn** and get started.
+
+---
+
+## 🔄 How It Works (Overview)
+1. **Onboarding**: User enters their city name (no GPS required).
+2. **Diagnostics**: On dashboard load, `fetchLiveDiagnostics()` runs three sequential Open-Meteo calls — geocoding → weather → air quality.
+3. **Daily Logging**: User logs activities via presets/sliders; the app calculates real-time CO₂ impact.
+4. **Eco-Budget Tracking**: Daily target vs. logged emissions determines progress bar color.
+5. **Eco Pledges**: Completing a pledge subtracts its CO₂ savings from the daily total.
+6. **AI Footprint Calculator**: Estimates and displays the environmental cost of digital/AI usage.
+
+---
+
+## 🔮 Possible Future Enhancements
+*   Historical trends and weekly/monthly insights.
+*   Community challenges (opt-in, privacy-preserving).
+*   Expanded preset library for region-specific habits.
+*   iOS support.
+
+---
+
+## 📄 License
+MIT License
+
+Copyright (c) 2026 zeusasus
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## 💖 Acknowledgements
+*   [Open-Meteo](https://open-meteo.com/) for free, open-source weather and air quality data.
+*   Built as part of a Hack2Skill vibecoding hackathon submission, developed using Google Antigravity and Claude.
+*   *Anyways i hope you guys like my app, you're free to help me change anything in the app. also since i'm a fan of gurren Lagann, some elements from that anime is involved in the app so a plus for the weebs lmao.*
