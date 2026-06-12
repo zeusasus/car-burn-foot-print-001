@@ -344,6 +344,7 @@ function Tips() {
                   value={tip.value !== undefined ? tip.value : tip.defaultValue}
                   onChange={(e) => handleValueChange(tip.id, Number(e.target.value))}
                   style={{ width: "100%", cursor: "pointer" }}
+                  aria-label={`Commitment range for ${tip.title}`}
                 />
               </div>
 

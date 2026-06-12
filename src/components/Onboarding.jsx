@@ -138,8 +138,9 @@ function Onboarding({ onComplete }) {
 
             {step === 2 && (
               <div className="onboarding-step fade-in">
-                <h2>What is your name?</h2>
+                <h2 id="onboarding-name-label">What is your name?</h2>
                 <input
+                  id="onboarding-name"
                   ref={nameInputRef}
                   className="google-input"
                   type="text"
@@ -148,17 +149,20 @@ function Onboarding({ onComplete }) {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   onKeyDown={(e) => e.key === "Enter" && handleNext()}
                   autoFocus
+                  aria-labelledby="onboarding-name-label"
                 />
               </div>
             )}
 
             {step === 3 && (
               <div className="onboarding-step fade-in">
-                <h2>Select your country</h2>
+                <h2 id="onboarding-country-label">Select your country</h2>
                 <select
+                  id="onboarding-country"
                   className="google-select"
                   value={form.country}
                   onChange={(e) => setForm({ ...form, country: e.target.value })}
+                  aria-labelledby="onboarding-country-label"
                 >
                   {countries.map((c) => (
                     <option key={c} value={c}>{c}</option>
@@ -169,8 +173,9 @@ function Onboarding({ onComplete }) {
 
             {step === 4 && (
               <div className="onboarding-step fade-in">
-                <h2>Which city do you live in?</h2>
+                <h2 id="onboarding-city-label">Which city do you live in?</h2>
                 <input
+                  id="onboarding-city"
                   ref={cityInputRef}
                   className="google-input"
                   type="text"
@@ -179,6 +184,7 @@ function Onboarding({ onComplete }) {
                   onChange={(e) => setForm({ ...form, city: e.target.value })}
                   onKeyDown={(e) => e.key === "Enter" && handleNext()}
                   autoFocus
+                  aria-labelledby="onboarding-city-label"
                 />
               </div>
             )}

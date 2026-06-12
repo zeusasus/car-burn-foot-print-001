@@ -360,8 +360,9 @@ function InputForm({ onSubmit }) {
           <div className="form-pane fade-in">
             <h2>Travel & Transport</h2>
             <div className="form-field">
-              <label>Distance Driven (km)</label>
+              <label htmlFor="transport-km">Distance Driven (km)</label>
               <input 
+                id="transport-km"
                 type="range" min="0" max="999" step="5"
                 value={transport.km}
                 onChange={(e) => setTransport({ ...transport, km: Number(e.target.value) })} 
@@ -371,8 +372,9 @@ function InputForm({ onSubmit }) {
 
             <div className="form-field-grid">
               <div className="form-field">
-                <label>Fuel Casing Type</label>
+                <label htmlFor="transport-fuel">Fuel Casing Type</label>
                 <select 
+                  id="transport-fuel"
                   value={transport.fuelType}
                   onChange={(e) => { playClick(); setTransport({ ...transport, fuelType: e.target.value }); }}
                 >
@@ -384,8 +386,9 @@ function InputForm({ onSubmit }) {
               </div>
 
               <div className="form-field">
-                <label>Vehicle Mileage (km/L or km/charge)</label>
+                <label htmlFor="transport-mileage">Vehicle Mileage (km/L or km/charge)</label>
                 <input 
+                  id="transport-mileage"
                   type="number" min="1" max="100"
                   value={transport.kmPerLiter === 0 ? "" : transport.kmPerLiter}
                   onChange={(e) => setTransport({ ...transport, kmPerLiter: e.target.value === "" ? 0 : Number(e.target.value) })} 
@@ -452,12 +455,13 @@ function InputForm({ onSubmit }) {
                   <div key={index} className="selection-row">
                     <span>{item.name}</span>
                     <div className="qty-controls">
-                      <button onClick={() => updateFoodQty(index, item.quantity - 1)}>-</button>
+                      <button onClick={() => updateFoodQty(index, item.quantity - 1)} aria-label={`Decrease quantity of ${item.name}`}>-</button>
                       <input 
                         type="number" min="1" value={item.quantity}
                         onChange={(e) => updateFoodQty(index, e.target.value === "" ? "" : Number(e.target.value))} 
+                        aria-label={`Quantity of ${item.name}`}
                       />
-                      <button onClick={() => updateFoodQty(index, item.quantity + 1)}>+</button>
+                      <button onClick={() => updateFoodQty(index, item.quantity + 1)} aria-label={`Increase quantity of ${item.name}`}>+</button>
                     </div>
                     <span>{(item.co2 * item.quantity).toFixed(2)} kg CO₂</span>
                   </div>
@@ -513,9 +517,9 @@ function InputForm({ onSubmit }) {
                   <div key={index} className="selection-row">
                     <span>{a.name}</span>
                     <div className="qty-controls">
-                      <button onClick={() => updateApplianceHours(index, a.hours - 0.5)}>-</button>
-                      <span className="qty-hours-label">{a.hours} hrs</span>
-                      <button onClick={() => updateApplianceHours(index, a.hours + 0.5)}>+</button>
+                      <button onClick={() => updateApplianceHours(index, a.hours - 0.5)} aria-label={`Decrease runtime for ${a.name}`}>-</button>
+                      <span className="qty-hours-label" aria-label={`${a.hours} hours selected`}>{a.hours} hrs</span>
+                      <button onClick={() => updateApplianceHours(index, a.hours + 0.5)} aria-label={`Increase runtime for ${a.name}`}>+</button>
                     </div>
                     <span>{(a.kw * a.hours * INDIA_GRID).toFixed(2)} kg CO₂</span>
                   </div>
@@ -536,8 +540,9 @@ function InputForm({ onSubmit }) {
             <h2>Shower & Water</h2>
             
             <div className="form-field">
-              <label>Shower Duration (minutes)</label>
+              <label htmlFor="water-shower">Shower Duration (minutes)</label>
               <input 
+                id="water-shower"
                 type="range" min="0" max="60" step="1"
                 value={water.showerMinutes}
                 onChange={(e) => setWater({ ...water, showerMinutes: Number(e.target.value) })} 
@@ -567,8 +572,9 @@ function InputForm({ onSubmit }) {
           <div className="form-pane fade-in">
             <h2>Paper & Books</h2>
             <div className="form-field">
-              <label>New Notebooks or Paper Books used this month</label>
+              <label htmlFor="books-count">New Notebooks or Paper Books used this month</label>
               <input 
+                id="books-count"
                 type="number" min="0" max="50"
                 value={books === 0 ? "" : books}
                 onChange={(e) => setBooks(e.target.value === "" ? 0 : Number(e.target.value))} 
@@ -587,8 +593,9 @@ function InputForm({ onSubmit }) {
             <h2>Apparel Purchases</h2>
             <div className="form-field-grid">
               <div className="form-field">
-                <label>New Clothing Items Purchased (this month)</label>
+                <label htmlFor="clothing-count">New Clothing Items Purchased (this month)</label>
                 <input 
+                  id="clothing-count"
                   type="number" min="0" max="20"
                   value={clothing.count === 0 ? "" : clothing.count}
                   onChange={(e) => setClothing({ ...clothing, count: e.target.value === "" ? 0 : Number(e.target.value) })} 
@@ -596,8 +603,9 @@ function InputForm({ onSubmit }) {
               </div>
 
               <div className="form-field">
-                <label>Primary Fabric Material</label>
+                <label htmlFor="clothing-fabric">Primary Fabric Material</label>
                 <select 
+                  id="clothing-fabric"
                   value={clothing.fabric}
                   onChange={(e) => { playClick(); setClothing({ ...clothing, fabric: e.target.value }); }}
                 >
@@ -639,9 +647,9 @@ function InputForm({ onSubmit }) {
                   <div key={index} className="selection-row">
                     <span>{s.name}</span>
                     <div className="qty-controls">
-                      <button onClick={() => updateStreamingHours(index, s.hours - 0.5)}>-</button>
-                      <span className="qty-hours-label">{s.hours} hrs</span>
-                      <button onClick={() => updateStreamingHours(index, s.hours + 0.5)}>+</button>
+                      <button onClick={() => updateStreamingHours(index, s.hours - 0.5)} aria-label={`Decrease hours for ${s.name}`}>-</button>
+                      <span className="qty-hours-label" aria-label={`${s.hours} hours selected`}>{s.hours} hrs</span>
+                      <button onClick={() => updateStreamingHours(index, s.hours + 0.5)} aria-label={`Increase hours for ${s.name}`}>+</button>
                     </div>
                     <span>{(s.co2 * s.hours).toFixed(2)} kg CO₂</span>
                   </div>
@@ -748,8 +756,9 @@ function InputForm({ onSubmit }) {
             
             <div className="form-field-grid" style={{ alignItems: "flex-end", borderTop: "1.5px solid rgba(255, 255, 255, 0.05)", paddingTop: "20px" }}>
               <div className="form-field">
-                <label>Delivery App Platform</label>
+                <label htmlFor="shopping-app">Delivery App Platform</label>
                 <select 
+                  id="shopping-app"
                   value={currentDelivery.app}
                   onChange={(e) => { playClick(); setCurrentDelivery({ ...currentDelivery, app: e.target.value }); }}
                 >
@@ -760,8 +769,9 @@ function InputForm({ onSubmit }) {
               </div>
 
               <div className="form-field">
-                <label>Approx. Warehouse Distance (km)</label>
+                <label htmlFor="shopping-distance">Approx. Warehouse Distance (km)</label>
                 <input 
+                  id="shopping-distance"
                   type="number" min="1" max="999"
                   value={currentDelivery.distance === 0 ? "" : currentDelivery.distance}
                   onChange={(e) => setCurrentDelivery({ ...currentDelivery, distance: e.target.value === "" ? 0 : Number(e.target.value) })} 
